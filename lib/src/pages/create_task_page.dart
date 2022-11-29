@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:task_fb_june_ndz/src/cubit/tasks/tasks_cubit.dart';
 import 'package:task_fb_june_ndz/src/models/task_model.dart';
 
@@ -77,16 +78,39 @@ class _CreateTaskPageState extends State<CreateTaskPage> {
                     ),
                   ),
                   SizedBox(height: 20,),
-                  ElevatedButton(onPressed: () {
-                      TaskModel taskModel = TaskModel(
-                          title: _titleController.text.trim(),
-                          description: _descriptionController.text.trim(),
-                          startDate: startDate??DateTime.now(),
-                          endDate: endDate??DateTime.now().add(Duration(days: 5)),
-                          isCompleted: false
-                      );
-                      context.read<TasksCubit>().createTasks(taskModel);
-                  }, child: Text("Create Task"))
+                  BlocConsumer<TasksCubit, TasksState>(
+                    listener: (context, state) {
+                      if(state is TaskCreated){
+                        Navigator.pop(context);
+                      }else if(state is TaskCreateError){
+                        Fluttertoast.showToast(
+                            msg: "Error creating the task",
+                            toastLength: Toast.LENGTH_LONG,
+                            gravity: ToastGravity.SNACKBAR,
+                            timeInSecForIosWeb: 1,
+                            backgroundColor: Colors.red,
+                            textColor: Colors.white,
+                            fontSize: 16.0
+                        );
+                      }
+                    },
+                    builder: (context, state) {
+                      if(state is TaskCreating){
+                        return CircularProgressIndicator();
+                      }
+                      return ElevatedButton(onPressed: () {
+                        TaskModel taskModel = TaskModel(
+                            title: _titleController.text.trim(),
+                            description: _descriptionController.text.trim(),
+                            startDate: startDate ?? DateTime.now(),
+                            endDate: endDate ?? DateTime.now().add(
+                                Duration(days: 5)),
+                            isCompleted: false
+                        );
+                        context.read<TasksCubit>().createTasks(taskModel);
+                      }, child: Text("Create Task"));
+                    },
+                  )
 
                 ],
               ))),
