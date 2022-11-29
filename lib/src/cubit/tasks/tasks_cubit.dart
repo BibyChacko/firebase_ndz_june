@@ -47,10 +47,6 @@ class TasksCubit extends Cubit<TasksState> {
     emit(TasksLoading());
     try{
      QuerySnapshot snapshot = await _repository.getTasks();
-     try {
-     } catch (e, s) {
-       print(s);
-     }
      List<TaskModel> taskList = snapshot.docs.map((e){
        Map<String,dynamic>  dx = e.data() as Map<String,dynamic>;
        String id = e.id;
