@@ -43,7 +43,7 @@ class TasksCubit extends Cubit<TasksState> {
     }
   }
 
-  getAllTasks(TaskModel taskModel) async{
+  getAllTasks() async{
     emit(TasksLoading());
     try{
      QuerySnapshot snapshot = await _repository.getTasks();
