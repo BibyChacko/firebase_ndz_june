@@ -79,8 +79,8 @@ class _CreateTaskPageState extends State<CreateTaskPage> {
                   SizedBox(height: 20,),
                   ElevatedButton(onPressed: () {
                       TaskModel taskModel = TaskModel(
-                          title: _titleController.text,
-                          description: _descriptionController.text,
+                          title: _titleController.text.trim(),
+                          description: _descriptionController.text.trim(),
                           startDate: startDate??DateTime.now(),
                           endDate: endDate??DateTime.now().add(Duration(days: 5)),
                           isCompleted: false
