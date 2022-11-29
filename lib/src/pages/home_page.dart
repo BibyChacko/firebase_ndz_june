@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:task_fb_june_ndz/src/cubit/tasks/tasks_cubit.dart';
 import 'package:task_fb_june_ndz/src/models/task_model.dart';
 import 'package:task_fb_june_ndz/src/pages/create_task_page.dart';
+import 'package:task_fb_june_ndz/src/pages/edit_task_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -60,17 +61,33 @@ class _HomePageState extends State<HomePage> {
               Text("End Date : ${taskModel.endDate.toString()}")
             ],
           ),
-          trailing: Row(
+          trailing: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
               Text(taskModel.isCompleted ? "Done" : "Pending"),
               SizedBox(
-                width: 4,
+                height: 4,
               ),
-              IconButton(
-                  onPressed: () {
-                    context.read<TasksCubit>().deleteTask(taskModel);
-                  },
-                  icon: Icon(Icons.delete))
+              Row(
+                children: [
+                  IconButton(
+                      onPressed: () {
+                        Navigator.of(context)
+                            .push(MaterialPageRoute(
+                                builder: (context) =>
+                                    EditTaskPage(taskModel: taskModel)))
+                            .then((value) {
+                          context.read<TasksCubit>().getAllTasks();
+                        });
+                      },
+                      icon: Icon(Icons.edit)),
+                  IconButton(
+                      onPressed: () {
+                        context.read<TasksCubit>().deleteTask(taskModel);
+                      },
+                      icon: Icon(Icons.delete))
+                ],
+              )
             ],
           ),
         );

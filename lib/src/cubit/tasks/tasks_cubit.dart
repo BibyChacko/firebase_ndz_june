@@ -17,6 +17,8 @@ class TasksCubit extends Cubit<TasksState> {
     try{
       await _repository.createTasks(taskModel);
       emit(TaskCreated());
+      await Future.delayed(Duration(seconds: 1));
+      getAllTasks();
     }catch(ex){
       emit(TaskCreateError());
     }
@@ -27,6 +29,8 @@ class TasksCubit extends Cubit<TasksState> {
     try{
       await _repository.updateTask(taskModel);
       emit(TaskUpdated());
+      await Future.delayed(Duration(seconds: 1));
+      getAllTasks();
     }catch(ex){
       emit(TaskUpdateError());
     }
@@ -38,6 +42,8 @@ class TasksCubit extends Cubit<TasksState> {
     try{
       await _repository.deleteTask(taskModel);
       emit(TaskDeleted());
+      await Future.delayed(Duration(seconds: 1));
+      getAllTasks();
     }catch(ex){
       emit(TaskDeleteError());
     }

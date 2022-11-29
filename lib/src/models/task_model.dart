@@ -29,7 +29,7 @@ class TaskModel {
       description: json["description"],
       startDate: DateTime.parse(json["startDate"]),
       endDate: DateTime.parse(json["endDate"]),
-      isCompleted: json["isCompleted"].toLowerCase() == 'true',
+      isCompleted: json["isCompleted"],
     );
   }
 //
