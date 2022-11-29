@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:task_fb_june_ndz/src/cubit/tasks/tasks_cubit.dart';
 import 'package:task_fb_june_ndz/src/models/task_model.dart';
+import 'package:task_fb_june_ndz/src/pages/create_task_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -16,35 +17,39 @@ class _HomePageState extends State<HomePage> {
     return BlocProvider(
       create: (context) => TasksCubit()..getAllTasks(),
       child: Scaffold(
-        appBar: AppBar(title: Text("Home page"),),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-
-          },
-        ),
-        body: BlocBuilder<TasksCubit,TasksState>(
-          builder: (context,state){
-            if(state is TasksLoading || state is TaskDeleting){
-              return CircularProgressIndicator();
-            }
-            else if(state is TasksLoaded){
-              return _buildTaskListView(context,state.tasks);
-            }else if(state is TasksLoadError){
-              return Text("Failed to load data");
-            }
-            else{
-              return Container();
-            }
-          },
-        )
-      ),
+          appBar: AppBar(
+            title: Text("Home page"),
+          ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              Navigator.push(context,
+                      MaterialPageRoute(builder: (_) => CreateTaskPage()))
+                  .then((value) {
+                context.read<TasksCubit>().getAllTasks();
+              });
+            },
+            child: Icon(Icons.add),
+          ),
+          body: BlocBuilder<TasksCubit, TasksState>(
+            builder: (context, state) {
+              if (state is TasksLoading || state is TaskDeleting) {
+                return CircularProgressIndicator();
+              } else if (state is TasksLoaded) {
+                return _buildTaskListView(context, state.tasks);
+              } else if (state is TasksLoadError) {
+                return Text("Failed to load data");
+              } else {
+                return Container();
+              }
+            },
+          )),
     );
   }
 
   Widget _buildTaskListView(BuildContext context, List<TaskModel> tasks) {
     return ListView.builder(
       itemCount: tasks.length,
-      itemBuilder: (context,pos){
+      itemBuilder: (context, pos) {
         TaskModel taskModel = tasks[pos];
         return ListTile(
           title: Text(taskModel.title),
@@ -57,11 +62,15 @@ class _HomePageState extends State<HomePage> {
           ),
           trailing: Row(
             children: [
-              Text(taskModel.isCompleted?"Done":"Pending"),
-              SizedBox(width: 4,),
-              IconButton(onPressed: (){
-                context.read<TasksCubit>().deleteTask(taskModel);
-              }, icon: Icon(Icons.delete))
+              Text(taskModel.isCompleted ? "Done" : "Pending"),
+              SizedBox(
+                width: 4,
+              ),
+              IconButton(
+                  onPressed: () {
+                    context.read<TasksCubit>().deleteTask(taskModel);
+                  },
+                  icon: Icon(Icons.delete))
             ],
           ),
         );
