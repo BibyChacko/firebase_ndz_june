@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1007851403540",
+    "project_id": "todo-ndz-june",
+    "storage_bucket": "todo-ndz-june.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1007851403540:android:2a17400b01bd7100aeaa01",
+        "android_client_info": {
+          "package_name": "in.fluttertrainer.task_fb_june_ndz"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1007851403540-bacr1rbasimp48e7k2vdv62sgpi3tfk8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1reWl3CKAhCFGoPx4WYAalujbhi7IMio"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1007851403540-bacr1rbasimp48e7k2vdv62sgpi3tfk8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
