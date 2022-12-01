@@ -126,7 +126,7 @@ class _EditTaskPageState extends State<EditTaskPage> {
                     },
                     builder: (context, state) {
                       if(state is TaskUpdating){
-                        return CircularProgressIndicator();
+                        return CircularProgressIndicator(color:Colors.red);
                       }
                       return ElevatedButton(onPressed: () {
                         context.read<TasksCubit>().updateTask(widget.taskModel);
